@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Search</title>
+    <style>
+        /* Basic styling for layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #locationSelect, #colorSelect {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #searchButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #searchButton:hover {
+            background-color: #45a049;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .grid-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .grid-item img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Video Search</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Enter your search query...">
+        <select id="locationSelect">
+            <option value="">Location</option>
+        </select>
+        <select id="colorSelect">
+            <option value="">Color</option>
+        </select>
+        <button id="searchButton">Go</button>
+    </div>
+    <div id="resultGrid" class="grid-container">
+        <!-- Results will be dynamically added here -->
+    </div>
+</div>
+
+<script>
+        // Simulated data for demonstration
+        const mockResults = [
+            { image: 'keyframe_1.jpg', metadata: ['dog', 'park', 'white'] },
+            { image: 'keyframe_2.jpg', metadata: ['dog', 'house', 'black'] },
+            { image: 'keyframe_3.jpg', metadata: ['dog', 'park', 'brown'] },
+            { image: 'keyframe_4.jpg', metadata: ['dog', 'wedding', 'white'] },
+            { image: 'keyframe_5.jpg', metadata: ['dog', 'house', 'white'] }
+        ];
+
+        // Function to filter results based on user input and selected filter
+        function filterResults(query) {
+            return mockResults.filter(result => {
+                return result.metadata.includes(query.toLowerCase());
+            });
+        }
+
+        // Function to populate dropdown options based on metadata
+        function populateDropdowns(results) {
+            const locations = new Set();
+            const colors = new Set();
+
+            results.forEach(result => {
+                result.metadata.forEach(item => {
+                    if (item !== 'dog') { // Exclude the query itself from dropdown options
+                        if (item === 'park' || item === 'house' || item === 'wedding') {
+                            locations.add(item);
+                        } else if (item === 'black' || item === 'white' || item === 'brown') {
+                            colors.add(item);
+                        }
+                    }
+                });
+            });
+
+            const locationSelect = document.getElementById('locationSelect');
+            const colorSelect = document.getElementById('colorSelect');
+
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location.charAt(0).toUpperCase() + location.slice(1); // Capitalize first letter
+                locationSelect.appendChild(option);
+            });
+
+            colors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color;
+                option.textContent = color.charAt(0).toUpperCase() + color.slice(1); // Capitalize first letter
+                colorSelect.appendChild(option);
+            });
+        }
+
+        // Function to display filtered results in the grid
+        function displayResults(results) {
+            const resultGrid = document.getElementById('resultGrid');
+            resultGrid.innerHTML = '';
+            results.forEach(result => {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+                const imageElement = document.createElement('img');
+                imageElement.src = result.image;
+                gridItem.appendChild(imageElement);
+                resultGrid.appendChild(gridItem);
+            });
+        }
+
+        // Event listener for search button click
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const filteredResults = filterResults(query);
+            displayResults(filteredResults);
+            populateDropdowns(filteredResults); // Populate dropdowns based on filtered results
+        });
+    </script>
+</body>
+</html>

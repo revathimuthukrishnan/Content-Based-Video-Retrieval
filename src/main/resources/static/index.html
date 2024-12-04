@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Search</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <img src="images/lrms_logo.jpg" alt="Logo" id="logo">
+</header>
+<div id="search-container">
+    <input type="text" id="search-bar" placeholder="Text Query Search...">
+    <select id="content-filter">
+        <option value="all">All</option>
+        <option value="title">Title</option>
+        <option value="description">Description</option>
+        <option value="tags">Tags</option>
+    </select>
+    <button id="search-button">Search</button>
+    <button id="reset-button">Reset</button>
+    <div id="status-bar"></div>
+</div>
+<div id="main-content">
+    <div id="results-container" class="grid-container"></div>
+    <div id="video-player-container">
+        <button id="close-video-player">X</button>
+        <video id="videoPlayer" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+<div id="pagination-controls">
+    <button id="prev-page" disabled>Previous</button>
+    <span id="page-info">Page 1 of 1</span>
+    <button id="next-page" disabled>Next</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
+</html>
